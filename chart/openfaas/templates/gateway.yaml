@@ -52,7 +52,7 @@ spec:
       containers:
       - name: gateway
         image: {{ .Values.images.gateway }}
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.openfaasImagePullPolicy }}
         env:
         - name: read_timeout
           value: "{{ .Values.gateway.readTimeout }}"
