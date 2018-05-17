@@ -1,4 +1,4 @@
-functionNamespace:
+functionNamespace: xweave-fn
 
 async: true
 
@@ -7,24 +7,24 @@ serviceType: NodePort
 rbac: true
 
 faasnetesd:
-  readTimeout : "20s"
-  writeTimeout : "20s"
+  readTimeout : "80s"
+  writeTimeout : "80s"
   imagePullPolicy : "Always"    # Image pull policy for deployed functions
 
 gateway:
-  readTimeout : "20s"
-  writeTimeout : "20s"
-  upstreamTimeout : "15s"  # Must be smaller than read/write_timeout
+  readTimeout : "80s"
+  writeTimeout : "80s"
+  upstreamTimeout : "60s"  # Must be smaller than read/write_timeout
 
 queueWorker:
   ackWait : "30s"
 
 # image pull policy for openfaas components, can change to `IfNotPresent` in offline env
-openfaasImagePullPolicy: "Always"
+openfaasImagePullPolicy: "IfNotPresent"
 
 # images of openfaas components
 images:
-  controller: functions/faas-netesd:0.5.2
+  controller: functions/faas-netesd:0.5.1
   gateway: functions/gateway:0.8.0
   prometheus: prom/prometheus:v2.2.0
   alertmanager: prom/alertmanager:v0.15.0-rc.0
@@ -33,26 +33,28 @@ images:
 
 # ingress configuration
 ingress:
-  enabled: false
+  enabled: true
   # Used to create Ingress record (should be used with exposeServices: false).
   hosts:
-    - host: faas-netesd.openfaas.local
+    - host: xweave.corp.ebay.com
       serviceName: faas-netesd
       servicePort: 8080
-      path: /
-    - host: gateway.openfaas.local
+      path: /faas-netesd
+    - host: xweave.corp.ebay.com
       serviceName: gateway
       servicePort: 8080
-      path: /
-    - host: prometheus.openfaas.local
+      path: /gateway
+    - host: xweave.corp.ebay.com
       serviceName: prometheus
       servicePort: 9090
-      path: /
-    - host: alertmanager.openfaas.local
+      path: /prometheus
+    - host: xweave.corp.ebay.com
       serviceName: alertmanager
       servicePort: 9093
-      path: /
+      path: /alertmanager
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: true
+    nginx.ingress.kubernetes.io/rewrite-target: /
   tls:
     # Secrets must be manually created in the namespace.
