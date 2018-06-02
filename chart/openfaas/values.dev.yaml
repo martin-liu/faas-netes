@@ -1,4 +1,4 @@
-functionNamespace: xweave-fn
+functionNamespace: xweave-fn-dev
 
 async: true
 
@@ -36,19 +36,19 @@ ingress:
   enabled: true
   # Used to create Ingress record (should be used with exposeServices: false).
   hosts:
-    - host: xweave.corp.ebay.com
+    - host: dev.xweave.corp.ebay.com
       serviceName: faas-netesd
       servicePort: 8080
       path: /faas-netesd
-    - host: xweave.corp.ebay.com
+    - host: dev.xweave.corp.ebay.com
       serviceName: gateway
       servicePort: 8080
       path: /gateway
-    - host: xweave.corp.ebay.com
+    - host: dev.xweave.corp.ebay.com
       serviceName: prometheus
       servicePort: 9090
       path: /prometheus
-    - host: xweave.corp.ebay.com
+    - host: dev.xweave.corp.ebay.com
       serviceName: alertmanager
       servicePort: 9093
       path: /alertmanager
