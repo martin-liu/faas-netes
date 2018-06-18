@@ -2,9 +2,13 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   labels:
-    app: alertmanager
+    app: {{ template "openfaas.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: alertmanager-config
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
   name: alertmanager-config
-  namespace: openfaas
+  namespace: {{ .Release.Namespace | quote }}
 data:
   alertmanager.yml: |
     route:
@@ -18,15 +22,16 @@ data:
           service: gateway
           receiver: scale-up
           severity: major
+
     inhibit_rules:
     - source_match:
         severity: 'critical'
       target_match:
         severity: 'warning'
       equal: ['alertname', 'cluster', 'service']
+
     receivers:
     - name: 'scale-up'
       webhook_configs:
-        - url: http://gateway.openfaas:8080/system/alert
+        - url: http://gateway.{{ .Release.Namespace }}:8080/system/alert
           send_resolved: true
----

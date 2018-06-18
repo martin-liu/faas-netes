@@ -24,8 +24,8 @@ openfaasImagePullPolicy: "IfNotPresent"
 
 # images of openfaas components
 images:
-  controller: functions/faas-netesd:0.5.1
-  gateway: functions/gateway:0.8.0
+  controller: functions/faas-netesd:0.5.5
+  gateway: functions/gateway:0.8.2
   prometheus: prom/prometheus:v2.2.0
   alertmanager: prom/alertmanager:v0.15.0-rc.0
   nats: nats-streaming:0.6.0
