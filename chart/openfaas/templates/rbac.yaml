@@ -10,7 +10,7 @@ metadata:
     component: faas-controller
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: faas-controller-{{ .Release.Name }}
+  name: faas-controller
 rules:
   - apiGroups:
       - ""
@@ -52,12 +52,12 @@ metadata:
     component: faas-controller
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: faas-controller-{{ .Release.Name }}
+  name: faas-controller
   namespace: {{ .Release.Namespace | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: faas-controller-{{ .Release.Name }}
+  name: faas-controller
 subjects:
   - kind: ServiceAccount
     name: faas-controller
@@ -73,12 +73,12 @@ metadata:
     component: faas-controller
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: faas-controller-fn-{{ .Release.Name }}
+  name: faas-controller-fn
   namespace: {{ $functionNs | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: faas-controller-{{ .Release.Name }}
+  name: faas-controller
 subjects:
   - kind: ServiceAccount
     name: faas-controller
