@@ -1,7 +1,7 @@
 {{- $functionNs := default .Release.Namespace .Values.functionNamespace }}
-{{- if .Values.rbac }}
 
-{{- define "openfaas.role.rules" }}
+{{/* Generate role rules */}}
+{{ define "openfaas.role.rules" }}
 rules:
   - apiGroups:
       - ""
@@ -33,9 +33,9 @@ rules:
       - get
       - list
       - watch
-{{- end }}
+{{ end }}
 
----
+{{- if .Values.rbac }}
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: Role
 metadata:
@@ -47,7 +47,7 @@ metadata:
     release: {{ .Release.Name }}
   name: faas-controller
   namespace: {{ .Release.Namespace | quote }}
-{{ include "openfaas.role.rules" }}
+{{ include "openfaas.role.rules" . }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
@@ -81,7 +81,7 @@ metadata:
     release: {{ .Release.Name }}
   name: faas-controller
   namespace: {{ $functionNs | quote }}
-{{ include "openfaas.role.rules" }}
+{{ include "openfaas.role.rules" . }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
